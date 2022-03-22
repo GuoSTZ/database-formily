@@ -1,0 +1,39 @@
+{
+  "type": "object",
+  "properties": {
+    "dbUser": {
+      "type": "string",
+      "title": "数据源用户名",
+      "required": "true",
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "x-component-props": {
+        "placeholder": "请输入数据源用户名"
+      },
+      "x-validator": [
+        {
+          "required": true,
+          "message": "请输入数据源用户名"
+        }
+      ],
+      "x-index": 5
+    },
+    "dbPassword": {
+      "type": "string",
+      "title": "数据源密码",
+      "required": "true",
+      "x-decorator": "FormItem",
+      "x-component": "Input.Password",
+      "x-component-props": {
+        "placeholder": "请输入数据源密码"
+      },
+      "x-validator": [
+        {
+          "required": true,
+          "message": "请输入数据源密码"
+        }
+      ],
+      "x-index": 6
+    }
+  }
+}

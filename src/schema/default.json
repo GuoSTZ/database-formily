@@ -5,7 +5,7 @@
         "type": "string",
         "title": "数据源类型",
         "maxLength": 10,
-        "default": "undefined",
+        "default": null,
         "x-decorator": "FormItem",
         "x-component": "Input",
         "x-component-props": {},
@@ -14,26 +14,40 @@
       "dbVersion": {
         "type": "string",
         "title": "数据源版本",
-        "enum": [
-          { "label": "1", "value": "1" },
-          { "label": "2", "value": "2" }
-        ],
         "x-decorator": "FormItem",
         "x-component": "Select",
         "x-component-props": {
-            "placeholder": "请选择数据源版本"
-        }
+          "placeholder": "请选择数据源版本"
+        },
+        "x-index": 0
       },
       "dbName": {
         "type": "string",
         "title": "数据源名称",
-        "required": "true",
-        "maxLength": 50,
         "x-decorator": "FormItem",
         "x-component": "Input",
         "x-component-props": {
-            "placeholder": "请输入数据源名称"
-        }
+          "placeholder": "请输入数据源名称"
+        },
+        "x-validator": [
+          {
+            "required": true,
+            "message": "请输入数据源名称"
+          },
+          {
+            "validateSpecialCharacters": true,
+            "message": "只允许输入英文字母、中文、数字"
+          },
+          {
+            "max": 50,
+            "message": "数据源名称长度为1-50个字符，请重新输入"
+          },
+          {
+            "whitespace": true,
+            "message": "请不要输入非法字符"
+          }
+        ],
+        "x-index": 1
       },
       "dbGroup": {
         "type": "string",
@@ -44,18 +58,29 @@
         "x-decorator": "FormItem",
         "x-component": "Select",
         "x-component-props": {
-            "placeholder": "请选择数据源分组"
-        }
+          "placeholder": "请选择数据源分组"
+        },
+        "x-index": 2
       },
-      "ip": {
+      "address": {
         "type": "string",
         "title": "IP地址/域名",
-        "required": "true",
         "x-decorator": "FormItem",
         "x-component": "Input",
         "x-component-props": {
-            "placeholder": "请输入IP地址/域名"
-        }
+          "placeholder": "请输入IP地址/域名"
+        },
+        "x-validator": [
+          {
+            "required": true,
+            "message": "请输入IP地址/域名"
+          },
+          {
+            "validateIpV4V6": true,
+            "message": "ip地址不正确"
+          }
+        ],
+        "x-index": 3
       },
       "port": {
         "type": "string",
@@ -64,8 +89,78 @@
         "x-decorator": "FormItem",
         "x-component": "Input",
         "x-component-props": {
-            "placeholder": "请输入端口"
-        }
+          "placeholder": "请输入端口"
+        },
+        "x-validator": [
+          {
+            "required": true,
+            "message": "请输入端口"
+          },
+          {
+            "validatePort": true,
+            "message": "端口长度为1-5个数字，最大端口号为65535，请重新输入"
+          }
+        ],
+        "x-index": 4
+      },
+      "dbTest": {
+        "type": "string",
+        "title": "测试数据源",
+        "x-decorator": "FormItem",
+        "x-component": "TestButton"
+      },
+      "multiNode": {
+        "type": "number",
+        "title": "多节点",
+        "enum": [
+          { "label": "开启", "value": 1 },
+          { "label": "关闭", "value": 0 }
+        ],
+        "default": 0,
+        "x-decorator": "FormItem",
+        "x-component": "Radio.Group"
+      },
+      "racListJson": {
+        "type": "object",
+        "title": " ",
+        "x-decorator": "FormItem",
+        "x-component": "EditTable",
+       
+        "x-reactions": {
+          "dependencies": ["multiNode"], 
+          "fulfill": {
+            "schema": {
+              "x-visible": "{{$deps[0] === 1}}"
+            }
+          }
+        },
+        "x-validator": [
+          {
+            "required": true,
+            "message": "请填写多节点信息"
+          }
+        ]
+      },
+      "racListJson_odps": {
+        "type": "object",
+        "title": " ",
+        "x-decorator": "FormItem",
+        "x-component": "EditTable",
+       
+        "x-reactions": {
+          "dependencies": ["multiNode", "dbType"], 
+          "fulfill": {
+            "schema": {
+              "x-visible": "{{$deps[0] === 1 && dbType === 'Odps'}}"
+            }
+          }
+        },
+        "x-validator": [
+          {
+            "required": true,
+            "message": "请填写多节点信息"
+          }
+        ]
       }
     }
   }

@@ -15,8 +15,8 @@
       "type": "string",
       "title": "数据源版本",
       "enum": [
-        { "label": "1.0", "value": 1 },
-        { "label": "2.0", "value": 2 }
+        { "label": "3.0", "value": 1 },
+        { "label": "4.0", "value": 2 }
       ],
       "x-decorator": "FormItem",
       "x-component": "Select",
@@ -98,6 +98,38 @@
         }
       ]
     },
+    "serviceName": {
+      "type": "string",
+      "title": "服务名/库名",
+      "required": "true",
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "x-component-props": {
+        "placeholder": "请输入服务名/库名"
+      },
+      "x-validator": [
+        {
+          "required": true,
+          "message": "请输入服务名/库名"
+        }
+      ]
+    },
+    "instanceName": {
+      "type": "string",
+      "title": "实例名",
+      "required": "true",
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "x-component-props": {
+        "placeholder": "请输入实例名"
+      },
+      "x-validator": [
+        {
+          "required": true,
+          "message": "请输入实例名"
+        }
+      ]
+    },
     "dbUser": {
       "type": "string",
       "title": "数据源用户名",
@@ -129,6 +161,17 @@
           "message": "请输入数据源密码"
         }
       ]
+    },
+    "dynamicNode": {
+      "type": "number",
+      "title": "动态节点",
+      "enum": [
+        { "label": "开启", "value": 1 },
+        { "label": "关闭", "value": 0 }
+      ],
+      "default": 0,
+      "x-decorator": "FormItem",
+      "x-component": "Radio.Group"
     },
     "dbTest": {
       "type": "string",
