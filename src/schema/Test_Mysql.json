@@ -23,7 +23,7 @@
       "title": "数据源密码",
       "required": "true",
       "x-decorator": "FormItem",
-      "x-component": "Input.Password",
+      "x-component": "Password",
       "x-component-props": {
         "placeholder": "请输入数据源密码"
       },

@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "properties": {
+    "ip": {
+      "type": "string",
+      "title": "IP地址/域名",
+      "x-decorator": "FormItem",
+      "x-component": "Input",
+      "x-component-props": {
+        "placeholder": "请输入IP地址/域名"
+      },
+      "x-validator": [
+        {
+          "required": true,
+          "message": "请输入IP地址/域名"
+        },
+        {
+          "validateIpV4V6": true,
+          "message": "ip地址不正确"
+        }
+      ]
+    }
+  }
+}
+
+
+
+
+
