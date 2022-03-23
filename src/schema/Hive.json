@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "properties": {
+    "file": {
+      "type": "string",
+      "title": "文件上传",
+      "required": "true",
+      "x-decorator": "FormItem",
+      "x-component": "Upload",
+      "x-component-props": {
+        "accept": ".xls"
+      },
+      "x-validator": [
+        {
+          "required": true,
+          "message": "请选择文件"
+        }
+      ],
+      "x-index": 6
+    }
+  }
+}

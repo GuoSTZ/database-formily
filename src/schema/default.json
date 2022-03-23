@@ -64,7 +64,8 @@
         "x-component-props": {
           "placeholder": "请选择数据源分组"
         },
-        "x-index": 2
+        "x-index": 2,
+        "x-disabled": true
       },
       "address": {
         "type": "string",

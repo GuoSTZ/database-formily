@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Input, FormItem, FormButtonGroup, Submit, Form, Select, Radio } from '@formily/antd'
+import { Input, FormItem, FormButtonGroup, Submit, Form, Select, Radio, Upload } from '@formily/antd'
 import { 
   createForm, 
   registerValidateRules,
@@ -68,7 +68,8 @@ const SchemaField = createSchemaField({
     Submit,
     Radio,
     TestButton,
-    EditTable
+    EditTable,
+    Upload
   },
 })
 
@@ -135,7 +136,8 @@ const FormView: React.FC<FormPorps> = props => {
     // { label: 'Oracle', value: 'Oracle' },
     // { label: 'Odps', value: 'Odps' },
     { label: 'Test_Mysql', value: 'Mysql' },
-    { label: 'Test_Oracle', value: 'Oracle' }
+    { label: 'Test_Oracle', value: 'Oracle' },
+    { label: 'Hive', value: 'Hive' }
   ]
 
   return (
