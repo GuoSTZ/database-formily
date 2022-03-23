@@ -1,22 +1,35 @@
 {
   "type": "object",
   "properties": {
-    "ip": {
+    "dbType": {
       "type": "string",
-      "title": "IP地址/域名",
+      "title": "数据库类型",
+      "default": "Mysql",
+      "enum": [
+        { "label": "Mysql", "value": "Mysql" },
+        { "label": "Oracle", "value": "Oracle" }
+      ],
+      "x-index": 0,
+      "x-disabled": false,
       "x-decorator": "FormItem",
-      "x-component": "Input",
+      "x-decorator-props": {
+        "labelCol": 4,
+        "wrapperCol": 20
+      },
+      "x-component": "Select",
       "x-component-props": {
-        "placeholder": "请输入IP地址/域名"
+        "placeholder": "请选择数据库类型",
+        "showSearch": true,
+        "allowClear": true
       },
       "x-validator": [
         {
           "required": true,
-          "message": "请输入IP地址/域名"
+          "message": "请选择数据库类型"
         },
         {
-          "validateIpV4V6": true,
-          "message": "ip地址不正确"
+          "validateCustom": true,
+          "message": "请重新选择"
         }
       ]
     }
