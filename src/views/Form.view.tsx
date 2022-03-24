@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Input, FormItem, FormButtonGroup, Submit, Form, Select, Radio, Upload, Password } from '@formily/antd'
-import {
-  createForm,
-  registerValidateRules,
-} from '@formily/core'
-import { action } from '@formily/reactive';
+
 import { Row, Col, Select as AntdSelect, Button } from 'antd';
 import {
   validateIpV4V6,
@@ -25,14 +20,6 @@ interface FormPorps {
   dbType?: string;
 }
 
-// 自定义校验规则注册
-registerValidateRules({
-  validateIpV4V6,
-  validatePort,
-  validateSpecialCharacters,
-  validateWhiteSpaceAnywhere
-})
-
 const layout = {
   labelCol: 6,
   wrapperCol: 8,
@@ -41,11 +28,6 @@ const layout = {
 const FormView: React.FC<FormPorps> = props => {
   const [dbType, setDbType] = useState(undefined as string | undefined);
   const [schemaType, setSchemaType] = useState("DefaultSchema");
-
-  const form = createForm({
-    validateFirst: true,
-    effects: () => { },
-  })
 
   useEffect(() => {
     setDbType(props.dbType)
@@ -84,10 +66,10 @@ const FormView: React.FC<FormPorps> = props => {
   const useAsyncDataSource = (service: any) => (field: any) => {
     field.loading = true;
     service(field).then(
-      action.bound && action.bound((data: any) => {
-        field.dataSource = data;
-        field.loading = false;
-      }),
+      // action.bound && action.bound((data: any) => {
+      //   field.dataSource = data;
+      //   field.loading = false;
+      // }),
     );
   };
 
@@ -129,13 +111,6 @@ const FormView: React.FC<FormPorps> = props => {
   ]
 
   const components = {
-    Input,
-    FormItem,
-    Select,
-    Submit,
-    Radio,
-    Upload,
-    Password,
     TestButton,
     EditTable
   }
@@ -145,6 +120,21 @@ const FormView: React.FC<FormPorps> = props => {
     useDicts,
     useAsyncDataSource,
     loadData
+  }
+
+  const validator = {
+    validateIpV4V6,
+    validatePort,
+    validateSpecialCharacters,
+    validateWhiteSpaceAnywhere
+  }
+
+  const schemaProps = {
+    components,
+    scope,
+    form: layout,
+    validator,
+    schema: schemaConfig[schemaType]
   }
 
   return (
@@ -169,16 +159,7 @@ const FormView: React.FC<FormPorps> = props => {
         </Col>
       </Row>
 
-      <Form form={form} {...layout}>
-        <SchemaFieldWrap
-          components={components}
-          schema={schemaConfig[schemaType]}
-          scope={scope}
-        />
-        <FormButtonGroup.FormItem>
-          <Submit onSubmit={onSubmit}>提交</Submit>
-        </FormButtonGroup.FormItem>
-      </Form>
+        <SchemaFieldWrap {...schemaProps} />
     </React.Fragment>
   )
 }

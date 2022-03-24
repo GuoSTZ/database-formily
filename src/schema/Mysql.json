@@ -55,18 +55,6 @@
         "placeholder": "请选择数据源分组"
       }
     },
-    "dbGroup111": {
-      "type": "string",
-      "title": "数据源分组111",
-      "enum": [
-        { "label": "分组1", "value": 1 }
-      ],
-      "x-decorator": "FormItem",
-      "x-component": "Select",
-      "x-component-props": {
-        "placeholder": "请选择数据源分组"
-      }
-    },
     "ip": {
       "type": "string",
       "title": "IP地址/域名",
