@@ -5,7 +5,7 @@
       "type": "string",
       "title": "数据源类型",
       "maxLength": 10,
-      "default": null,
+      "default": "OceanBase",
       "x-decorator": "FormItem",
       "x-component": "Input",
       "x-component-props": {},
@@ -14,12 +14,15 @@
     "dbVersion": {
       "type": "string",
       "title": "数据源版本",
+      "enum": [
+        { "label": "1.0", "value": 1 },
+        { "label": "2.0", "value": 2 }
+      ],
       "x-decorator": "FormItem",
       "x-component": "Select",
       "x-component-props": {
         "placeholder": "请选择数据源版本"
-      },
-      "x-index": 0
+      }
     },
     "dbName": {
       "type": "string",
@@ -41,13 +44,8 @@
         {
           "max": 50,
           "message": "数据源名称长度为1-50个字符，请重新输入"
-        },
-        {
-          "whitespace": true,
-          "message": "请不要输入非法字符"
         }
-      ],
-      "x-index": 1
+      ]
     },
     "dbGroup": {
       "type": "string",
@@ -59,11 +57,9 @@
       "x-component": "Select",
       "x-component-props": {
         "placeholder": "请选择数据源分组"
-      },
-      "x-index": 2,
-      "x-disabled": true
+      }
     },
-    "address": {
+    "ip": {
       "type": "string",
       "title": "IP地址/域名",
       "x-decorator": "FormItem",
@@ -80,12 +76,12 @@
           "validateIpV4V6": true,
           "message": "ip地址不正确"
         }
-      ],
-      "x-index": 3
+      ]
     },
     "port": {
       "type": "string",
       "title": "端口",
+      "required": "true",
       "x-decorator": "FormItem",
       "x-component": "Input",
       "x-component-props": {
@@ -100,12 +96,12 @@
           "validatePort": true,
           "message": "端口长度为1-5个数字，最大端口号为65535，请重新输入"
         }
-      ],
-      "x-index": 4
+      ]
     },
-    "userName": {
+    "dbUser": {
       "type": "string",
       "title": "数据源用户名",
+      "required": "true",
       "x-decorator": "FormItem",
       "x-component": "Input",
       "x-component-props": {
@@ -116,17 +112,14 @@
           "required": true,
           "message": "请输入数据源用户名"
         }
-      ],
-      "x-index": 5
+      ]
     },
-    "password": {
+    "dbPassword": {
       "type": "string",
       "title": "数据源密码",
+      "required": "true",
       "x-decorator": "FormItem",
-      "x-decorator-props": {
-        "feedbackText": "请输入数据源密码"
-      },
-      "x-component": "Password",
+      "x-component": "Input.Password",
       "x-component-props": {
         "placeholder": "请输入数据源密码"
       },
@@ -135,19 +128,7 @@
           "required": true,
           "message": "请输入数据源密码"
         }
-      ],
-      "x-index": 6
-    },
-    "kerberosSwitch": {
-      "type": "string",
-      "title": "kerberos",
-      "x-decorator": "FormItem",
-      "x-component": "Radio.Group",
-      "enum": [
-        { "label":"开启", "value": true },
-        { "label":"关闭", "value": false }
-      ],
-      "x-index": 7
+      ]
     },
     "dbTest": {
       "type": "string",
@@ -165,46 +146,6 @@
       "default": 0,
       "x-decorator": "FormItem",
       "x-component": "Radio.Group"
-    },
-    "racListJson": {
-      "type": "object",
-      "title": " ",
-      "x-decorator": "FormItem",
-      "x-component": "EditTable",
-      "x-reactions": {
-        "dependencies": ["multiNode"], 
-        "fulfill": {
-          "schema": {
-            "x-visible": "{{$deps[0] === 1}}"
-          }
-        }
-      },
-      "x-validator": [
-        {
-          "required": true,
-          "message": "请填写多节点信息"
-        }
-      ]
-    },
-    "racListJson_odps": {
-      "type": "object",
-      "title": " ",
-      "x-decorator": "FormItem",
-      "x-component": "EditTable",
-      "x-reactions": {
-        "dependencies": ["multiNode", "dbType_hidden"], 
-        "fulfill": {
-          "schema": {
-            "x-visible": "{{$deps[0] === 1 && $deps[1] === 'Odps'}}"
-          }
-        }
-      },
-      "x-validator": [
-        {
-          "required": true,
-          "message": "请填写多节点信息"
-        }
-      ]
     }
   }
 }
