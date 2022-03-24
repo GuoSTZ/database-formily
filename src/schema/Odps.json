@@ -4,7 +4,7 @@
     "dbType_hidden": {
       "type": "string",
       "title": "数据源类型",
-      "default": null,
+      "default": "Odps",
       "x-decorator": "FormItem",
       "x-component": "Input",
       "x-component-props": {},
@@ -18,8 +18,7 @@
       "x-component-props": {
         "placeholder": "请选择数据源版本"
       },
-      "x-index": 0,
-      "x-reactions": ["{{useAsyncDataSource(loadData)}}"]
+      "x-index": 0
     },
     "dbName": {
       "type": "string",
@@ -53,6 +52,12 @@
     "dbGroup": {
       "type": "string",
       "title": "数据源分组",
+      "enum": [
+        {
+          "label": "分组1",
+          "value": 1
+        }
+      ],
       "x-decorator": "FormItem",
       "x-component": "Select",
       "x-component-props": {
@@ -124,21 +129,18 @@
       "x-decorator": "FormItem",
       "x-component": "Radio.Group"
     },
-    "racListJson": {
+    "racListJson_odps": {
       "type": "object",
+      "title": " ",
       "x-decorator": "FormItem",
-      "x-decorator-props": {
-        "labelCol": 4,
-        "wrapperCol": 8
-      },
       "x-component": "EditTable",
       "x-reactions": {
         "dependencies": [
-          "multiNode"
+          "dbType_hidden"
         ],
         "fulfill": {
           "schema": {
-            "x-visible": "{{$deps[0] === 1}}"
+            "x-visible": "{{$deps[0] === 'Odps'}}"
           }
         }
       },

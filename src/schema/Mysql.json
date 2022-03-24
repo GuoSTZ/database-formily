@@ -4,7 +4,6 @@
     "dbType_hidden": {
       "type": "string",
       "title": "数据源类型",
-      "maxLength": 10,
       "default": "Mysql",
       "x-decorator": "FormItem",
       "x-component": "Input",
@@ -14,15 +13,12 @@
     "dbVersion": {
       "type": "string",
       "title": "数据源版本",
-      "enum": [
-        { "label": "1.0", "value": 1 },
-        { "label": "2.0", "value": 2 }
-      ],
       "x-decorator": "FormItem",
       "x-component": "Select",
       "x-component-props": {
         "placeholder": "请选择数据源版本"
-      }
+      },
+      "x-reactions": ["{{useAsyncDataSource(loadData)}}"]
     },
     "dbName": {
       "type": "string",
@@ -50,6 +46,18 @@
     "dbGroup": {
       "type": "string",
       "title": "数据源分组",
+      "enum": [
+        { "label": "分组1", "value": 1 }
+      ],
+      "x-decorator": "FormItem",
+      "x-component": "Select",
+      "x-component-props": {
+        "placeholder": "请选择数据源分组"
+      }
+    },
+    "dbGroup111": {
+      "type": "string",
+      "title": "数据源分组111",
       "enum": [
         { "label": "分组1", "value": 1 }
       ],
@@ -146,6 +154,27 @@
       "default": 0,
       "x-decorator": "FormItem",
       "x-component": "Radio.Group"
+    },
+    "racListJson": {
+      "type": "object",
+      "x-decorator": "FormItem",
+      "x-component": "EditTable",
+      "x-reactions": {
+        "dependencies": [
+          "multiNode"
+        ],
+        "fulfill": {
+          "schema": {
+            "x-visible": "{{$deps[0] === 1}}"
+          }
+        }
+      },
+      "x-validator": [
+        {
+          "required": true,
+          "message": "请填写多节点信息"
+        }
+      ]
     }
   }
 }

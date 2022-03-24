@@ -1,9 +1,13 @@
 import React from 'react';
-import { Input } from 'antd';
+import { Table } from 'antd';
+import column from './column.json';
 
 const EditTable: React.FC<any> = props => {
+  const dataSource = [
+    { key: 1, name: "张三", age: 18, address: "杭州" }
+  ]
   return (
-    <Input placeholder='这是一个可编辑表格区域'/>
+    <Table columns={column} dataSource={dataSource}/>
   )
 }
 

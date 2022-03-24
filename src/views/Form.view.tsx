@@ -1,78 +1,29 @@
 import React, { useState, useEffect } from 'react'
 import { Input, FormItem, FormButtonGroup, Submit, Form, Select, Radio, Upload, Password } from '@formily/antd'
-import { 
-  createForm, 
+import {
+  createForm,
   registerValidateRules,
-  onFieldReact,
-  onFieldInit,
-  FormPathPattern,
-  Field,
-  onFieldValueChange,
-  onFieldChange,
 } from '@formily/core'
-import { FormProvider, createSchemaField, useForm } from '@formily/react'
+import { action } from '@formily/reactive';
 import { Row, Col, Select as AntdSelect, Button } from 'antd';
-import { 
-  validateIpV4V6, 
-  validatePort, 
+import {
+  validateIpV4V6,
+  validatePort,
   validateSpecialCharacters,
   validateWhiteSpaceAnywhere
 } from '../utils/validate';
 import mockDbVersion from '../utils/mockData';
-import EditTable from '../components/EditTable';
+import {
+  SchemaFieldWrap,
+  TestButton,
+  EditTable
+} from '../components';
 // import * as schemaConfig from '../schema'
 const schemaConfig = require('../schema');
 
-interface FormPorps {  
+interface FormPorps {
   dbType?: string;
 }
-
-const form = createForm({
-  validateFirst: true,
-  effects: () => {
-    onFieldReact('dbVersion', (field: any) => {
-      // console.log(666, field)
-      // field.dataSource = [
-      //   {label: "aaa", value: 1},
-      //   {label: "bbbw", value: 2}
-      // ]
-    })
-    onFieldValueChange('', (field: Field) => {
-      console.log(field, '===')
-    })
-    onFieldChange('', (field: any) => {
-      console.log(field, '===***')
-    })
-    // onField
-  },
-})
-
-// 测试数据库按钮
-const TestButton = (props: any) => {
-  const form = useForm();
-  const onClick = () => {
-    form.validate()
-      .then(() => {
-        const values = JSON.parse(JSON.stringify(form.values));
-        console.log("请求已发出，包含参数为：", values)
-      })
-  }
-  return <Button type="primary" ghost onClick={onClick}>测试数据源</Button>;
-}
-
-const SchemaField = createSchemaField({
-  components: {
-    Input,
-    FormItem,
-    Select,
-    Submit,
-    Radio,
-    TestButton,
-    EditTable,
-    Upload,
-    Password
-  },
-})
 
 // 自定义校验规则注册
 registerValidateRules({
@@ -88,39 +39,73 @@ const layout = {
 };
 
 const FormView: React.FC<FormPorps> = props => {
-  const [dbType, setDbType] = useState(undefined as string|undefined);
+  const [dbType, setDbType] = useState(undefined as string | undefined);
   const [schemaType, setSchemaType] = useState("DefaultSchema");
+
+  const form = createForm({
+    validateFirst: true,
+    effects: () => { },
+  })
 
   useEffect(() => {
     setDbType(props.dbType)
   }, [props.dbType]);
 
-  const dbTypeOnChange = (value: any, option: any) => {
-    setDbType(value);
-    setSchemaType(value ? `${value}Schema` : 'DefaultSchema');
-    form.setFieldState('dbVersion',(state)=>{
-      state.dataSource = (mockDbVersion as any)[value];
+  const loadData = async (field: any) => {
+    const linkage = field.query('dbType_hidden').get('value')
+    // if (!linkage) return []
+    return new Promise((resolve) => {
+      if(linkage === null) {
+        resolve([
+          {
+            label: 'AAA',
+            value: 'aaa',
+          },
+          {
+            label: 'BBB',
+            value: 'ccc',
+          },
+        ])
+      } else {
+        resolve([
+          {
+            label: '2',
+            value: '2',
+          },
+          {
+            label: '3',
+            value: '3',
+          },
+        ])
+      }
     })
   }
 
-  const handleDbVersion = async (value: string) => {
-    await fetch(`https://suggest.taobao.com/sug?q=${value}`, {
-      method: 'jsonp',
-    })
-      .then((response) => response.json())
-      .then((d) => {
-        const { result } = d
-        const data: any= []
-        result.forEach((r: any) => {
-          data.push({
-            value: r[0],
-            label: r[0],
-          })
-        })
-        form.setFieldState('dbVersion',(state)=>{
-          state.dataSource = data;
-        })
-      })
+  const useAsyncDataSource = (service: any) => (field: any) => {
+    field.loading = true;
+    service(field).then(
+      action.bound && action.bound((data: any) => {
+        field.dataSource = data;
+        field.loading = false;
+      }),
+    );
+  };
+
+  const useDicts = (data: any) => (field: any) => {
+    console.log(field, '===')
+    field.dataSource = data;
+  }
+
+  const dicts = (str: "Mysql" | "Oracle") => {
+    console.log(str, JSON.stringify(mockDbVersion[str]), '====')
+    return { label: "a", value: 1 }
+    // if(!str) return [];
+    // return mockDbVersion[str] || [];
+  }
+
+  const dbTypeOnChange = (value: any, option: any) => {
+    setDbType(value);
+    setSchemaType(value ? `${value}Schema` : "DefaultSchema");
   }
 
   const onSubmit = (values: any) => {
@@ -130,43 +115,66 @@ const FormView: React.FC<FormPorps> = props => {
         resolve()
       }, 2000)
     })
-  } 
+  }
 
   const options = [
-    // { label: 'Mysql', value: 'Mysql' },
-    // { label: 'Oracle', value: 'Oracle' },
+    { label: 'Mysql', value: 'Mysql' },
+    { label: 'Oracle', value: 'Oracle' },
+    { label: 'Odps', value: 'Odps' }
     // { label: 'Odps', value: 'Odps' },
-    { label: 'Test_Mysql', value: 'Mysql' },
-    { label: 'Test_Oracle', value: 'Oracle' },
-    { label: 'Hive', value: 'Hive' },
-    { label: 'OceanBase', value: 'OceanBase' }
+    // { label: 'Test_Mysql', value: 'Mysql' },
+    // { label: 'Test_Oracle', value: 'Oracle' },
+    // { label: 'Hive', value: 'Hive' },
+    // { label: 'OceanBase', value: 'OceanBase' }
   ]
+
+  const components = {
+    Input,
+    FormItem,
+    Select,
+    Submit,
+    Radio,
+    Upload,
+    Password,
+    TestButton,
+    EditTable
+  }
+
+  const scope = {
+    dicts,
+    useDicts,
+    useAsyncDataSource,
+    loadData
+  }
 
   return (
     <React.Fragment>
       <Row>
-        <Col span={6} style={{textAlign: 'right'}}>
+        <Col span={6} style={{ textAlign: 'right' }}>
           数据库类型：
         </Col>
         <Col span={8}>
-          <AntdSelect 
+          <AntdSelect
             value={dbType}
             onChange={dbTypeOnChange}
             allowClear
             placeholder="请选择数据库类型"
-            style={{width: "100%", marginBottom: 24}}>
-            { 
-              options.map((item: any) => 
+            style={{ width: "100%", marginBottom: 24 }}>
+            {
+              options.map((item: any) =>
                 <AntdSelect.Option value={item.value} key={item.value}>{item.label}</AntdSelect.Option>
-              ) 
+              )
             }
           </AntdSelect>
         </Col>
       </Row>
 
-      {/* schema配置 */}
       <Form form={form} {...layout}>
-        <SchemaField schema={schemaConfig[schemaType]} />
+        <SchemaFieldWrap
+          components={components}
+          schema={schemaConfig[schemaType]}
+          scope={scope}
+        />
         <FormButtonGroup.FormItem>
           <Submit onSubmit={onSubmit}>提交</Submit>
         </FormButtonGroup.FormItem>
