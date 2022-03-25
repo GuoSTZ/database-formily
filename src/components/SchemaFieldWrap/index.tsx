@@ -26,11 +26,28 @@ import { action } from '@formily/reactive';
 // const SchemaField = createSchemaField();
 
 interface SchemaFieldWrapProps {
-  form?: any;
+  getForm?: any;
+  formPorps?: any;
   schema: any;
   components: any
   scope?: any;
   validator?: any
+}
+
+// 修改schema字段源数据的方法
+const useAsyncDataSource = (service: any) => (field: any) => {
+  field.loading = true;
+  service(field).then(
+    action.bound && action.bound((data: any) => {
+      console.log(data, '===')
+      field.dataSource = data;
+      field.loading = false;
+    }),
+  );
+};
+
+const useDicts = (data: any) => (field: any) => {
+  field.dataSource = data;
 }
 
 const SchemaField = createSchemaField({
@@ -49,11 +66,19 @@ const SchemaField = createSchemaField({
     Transfer,
     TreeSelect,
     Upload
+  },
+  scope: {
+    useAsyncDataSource,
+    useDicts
   }
 });
 
 const SchemaFieldWrap: React.FC<SchemaFieldWrapProps> = props => {
-  const { schema, form, validator, ...otherProps} = props;
+  const { getForm, schema, formPorps, validator, ...otherProps} = props;
+
+  useEffect(() => {
+    getForm && getForm(baseform);
+  }, [getForm])
 
   const baseform = createForm({
     validateFirst: true,
@@ -71,8 +96,8 @@ const SchemaFieldWrap: React.FC<SchemaFieldWrapProps> = props => {
   }, [SchemaField])
 
   return (
-    <Form form={baseform} {...form}>
-      <SchemaField {...otherProps} schema={schema}/>
+    <Form form={baseform} {...formPorps}>
+      <SchemaField {...otherProps} schema={schema} />
     </Form>
   )
 }

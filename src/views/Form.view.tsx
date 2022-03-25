@@ -23,6 +23,8 @@ interface FormPorps {
 const FormView: React.FC<FormPorps> = props => {
   const [dbType, setDbType] = useState(undefined as string | undefined);
   const [schemaType, setSchemaType] = useState("DefaultSchema");
+  const [submitLoading, setSubmitLoading] = useState(false);
+  let form: any = null;
 
   useEffect(() => {
     setDbType(props.dbType)
@@ -58,26 +60,10 @@ const FormView: React.FC<FormPorps> = props => {
     })
   }
 
-  const useAsyncDataSource = (service: any) => (field: any) => {
-    field.loading = true;
-    service(field).then(
-      // action.bound && action.bound((data: any) => {
-      //   field.dataSource = data;
-      //   field.loading = false;
-      // }),
-    );
-  };
-
-  const useDicts = (data: any) => (field: any) => {
-    console.log(field, '===')
-    field.dataSource = data;
-  }
-
+  // 模拟字典取值方法
   const dicts = (str: "Mysql" | "Oracle") => {
-    console.log(str, JSON.stringify(mockDbVersion[str]), '====')
-    return { label: "a", value: 1 }
-    // if(!str) return [];
-    // return mockDbVersion[str] || [];
+    if(!str) return [];
+    return mockDbVersion[str] || [];
   }
 
   const dbTypeOnChange = (value: any, option: any) => {
@@ -85,13 +71,20 @@ const FormView: React.FC<FormPorps> = props => {
     setSchemaType(value ? `${value}Schema` : "DefaultSchema");
   }
 
-  const onSubmit = (values: any) => {
-    return new Promise((resolve: any) => {
-      setTimeout(() => {
-        console.log(values)
-        resolve()
-      }, 2000)
+  // 表单提交
+  const onSubmit = () => {
+    // setSubmitLoading(true);
+    form?.submit().then((values: any) => {
+      console.log(values)
     })
+  }
+
+  const fetchTest = async (field: any) => {
+    return [{label: 'aa', value: 1}]
+    // field.loading = true;
+    // await fetch(`https://guostz.github.io/Tuan/files/select.json`)
+    //   .then((res: any) => res.json())
+    //   .then((data: any) => new Promise((resolve: any) => resolve(data)))
   }
 
   const options = [
@@ -104,36 +97,32 @@ const FormView: React.FC<FormPorps> = props => {
     // { label: 'Hive', value: 'Hive' },
     // { label: 'OceanBase', value: 'OceanBase' }
   ]
-  const form = {
+
+  // form 相关属性配置
+  const formPorps = {
     labelCol: 6,
     wrapperCol: 8,
   }
 
+  // 自定义组件
   const components = {
     TestButton,
     EditTable
   }
 
+  // 相关方法传入
   const scope = {
     dicts,
-    useDicts,
-    useAsyncDataSource,
-    loadData
+    loadData,
+    fetchTest
   }
 
+  // 自定义校验规则
   const validator = {
     validateIpV4V6,
     validatePort,
     validateSpecialCharacters,
     validateWhiteSpaceAnywhere
-  }
-
-  const schemaProps = {
-    components,
-    scope,
-    form,
-    validator,
-    schema: schemaConfig[schemaType]
   }
 
   return (
@@ -158,7 +147,20 @@ const FormView: React.FC<FormPorps> = props => {
         </Col>
       </Row>
 
-      <SchemaFieldWrap {...schemaProps} />
+      <SchemaFieldWrap 
+        getForm={(baseForm: any) => form = baseForm} 
+        components={components}
+        scope={scope}
+        formPorps={formPorps}
+        validator={validator}
+        schema={schemaConfig[schemaType]}
+      />
+
+      <Row>
+        <Col offset={6}>
+          <Button loading={submitLoading} type="primary" onClick={onSubmit}>提交</Button>
+        </Col>
+      </Row>
     </React.Fragment>
   )
 }
