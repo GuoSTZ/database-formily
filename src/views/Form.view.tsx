@@ -20,11 +20,6 @@ interface FormPorps {
   dbType?: string;
 }
 
-const layout = {
-  labelCol: 6,
-  wrapperCol: 8,
-};
-
 const FormView: React.FC<FormPorps> = props => {
   const [dbType, setDbType] = useState(undefined as string | undefined);
   const [schemaType, setSchemaType] = useState("DefaultSchema");
@@ -109,6 +104,10 @@ const FormView: React.FC<FormPorps> = props => {
     // { label: 'Hive', value: 'Hive' },
     // { label: 'OceanBase', value: 'OceanBase' }
   ]
+  const form = {
+    labelCol: 6,
+    wrapperCol: 8,
+  }
 
   const components = {
     TestButton,
@@ -132,7 +131,7 @@ const FormView: React.FC<FormPorps> = props => {
   const schemaProps = {
     components,
     scope,
-    form: layout,
+    form,
     validator,
     schema: schemaConfig[schemaType]
   }
@@ -159,7 +158,7 @@ const FormView: React.FC<FormPorps> = props => {
         </Col>
       </Row>
 
-        <SchemaFieldWrap {...schemaProps} />
+      <SchemaFieldWrap {...schemaProps} />
     </React.Fragment>
   )
 }

@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { 
-  Input, 
-  FormItem, 
-  Form, 
-  Select, 
-  Radio, 
-  Upload, 
-  Password 
+  FormItem,
+  Input,
+  NumberPicker,
+  Password,
+  Radio,
+  Reset,
+  Select,
+  SelectTable,
+  Space,
+  Switch,
+  TimePicker,
+  Transfer,
+  TreeSelect,
+  Upload,
+  Form
 } from '@formily/antd'
 import {
   createForm,
@@ -25,21 +33,27 @@ interface SchemaFieldWrapProps {
   validator?: any
 }
 
+const SchemaField = createSchemaField({
+  components: {
+    FormItem,
+    Input,
+    NumberPicker,
+    Password,
+    Radio,
+    Reset,
+    Select,
+    SelectTable,
+    Space,
+    Switch,
+    TimePicker,
+    Transfer,
+    TreeSelect,
+    Upload
+  }
+});
 
 const SchemaFieldWrap: React.FC<SchemaFieldWrapProps> = props => {
-  const { schema, form, components, scope, validator, ...otherProps} = props;
-  
-  const SchemaField = createSchemaField({
-    components: Object.assign({}, {
-      FormItem,
-      Input,
-      Select,
-      Password,
-      Radio,
-      Upload
-    }, components),
-    scope: scope
-  });
+  const { schema, form, validator, ...otherProps} = props;
 
   const baseform = createForm({
     validateFirst: true,
