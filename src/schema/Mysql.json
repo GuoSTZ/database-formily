@@ -51,7 +51,7 @@
       "x-component-props": {
         "placeholder": "请选择数据源分组"
       },
-      "x-reactions": ["{{useAsyncDataSource(fetchTest)}}"]
+      "x-reactions": ["{{useAsyncDataSourceWithUrl('https://guostz.github.io/Tuan/files/select.json')}}"]
     },
     "ip": {
       "type": "string",

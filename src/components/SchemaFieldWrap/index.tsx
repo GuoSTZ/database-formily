@@ -35,15 +35,27 @@ interface SchemaFieldWrapProps {
 }
 
 // 修改schema字段源数据的方法
-const useAsyncDataSource = (service: any) => (field: any) => {
+const useAsyncDataSource = (service: any, transform: Function) => (field: any) => {
   field.loading = true;
   service(field).then(
     action.bound && action.bound((data: any) => {
-      console.log(data, '===')
-      field.dataSource = data;
+      field.dataSource = transform ? transform(data) : data;
       field.loading = false;
     }),
   );
+};
+
+// 修改schema字段源数据的方法
+const useAsyncDataSourceWithUrl = (url: string, transform: Function) => (field: any) => {
+  field.loading = true;
+  fetch(url)
+    .then(res => res.json())
+    .then(
+      action.bound && action.bound((data: any) => {
+        field.dataSource = transform ? transform(data) : data;
+        field.loading = false;
+      })
+    )
 };
 
 const useDicts = (data: any) => (field: any) => {
@@ -69,6 +81,7 @@ const SchemaField = createSchemaField({
   },
   scope: {
     useAsyncDataSource,
+    useAsyncDataSourceWithUrl,
     useDicts
   }
 });

@@ -18,8 +18,7 @@
       "x-component-props": {
         "placeholder": "请选择数据源版本"
       },
-      "x-index": 0,
-      "x-reactions": ["{{useAsyncDataSource(loadData)}}"]
+      "x-index": 0
     },
     "dbName": {
       "type": "string",

@@ -50,14 +50,12 @@
     "dbGroup": {
       "type": "string",
       "title": "数据源分组",
-      "enum": [
-        { "label": "分组1", "value": 1 }
-      ],
       "x-decorator": "FormItem",
       "x-component": "Select",
       "x-component-props": {
         "placeholder": "请选择数据源分组"
-      }
+      },
+      "x-reactions": ["{{useAsyncDataSourceWithUrl('https://guostz.github.io/Tuan/files/select_oracle.json')}}"]
     },
     "ip": {
       "type": "string",

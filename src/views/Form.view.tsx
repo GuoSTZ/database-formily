@@ -23,42 +23,11 @@ interface FormPorps {
 const FormView: React.FC<FormPorps> = props => {
   const [dbType, setDbType] = useState(undefined as string | undefined);
   const [schemaType, setSchemaType] = useState("DefaultSchema");
-  const [submitLoading, setSubmitLoading] = useState(false);
   let form: any = null;
 
   useEffect(() => {
     setDbType(props.dbType)
   }, [props.dbType]);
-
-  const loadData = async (field: any) => {
-    const linkage = field.query('dbType_hidden').get('value')
-    // if (!linkage) return []
-    return new Promise((resolve) => {
-      if(linkage === null) {
-        resolve([
-          {
-            label: 'AAA',
-            value: 'aaa',
-          },
-          {
-            label: 'BBB',
-            value: 'ccc',
-          },
-        ])
-      } else {
-        resolve([
-          {
-            label: '2',
-            value: '2',
-          },
-          {
-            label: '3',
-            value: '3',
-          },
-        ])
-      }
-    })
-  }
 
   // 模拟字典取值方法
   const dicts = (str: "Mysql" | "Oracle") => {
@@ -77,14 +46,6 @@ const FormView: React.FC<FormPorps> = props => {
     form?.submit().then((values: any) => {
       console.log(values)
     })
-  }
-
-  const fetchTest = async (field: any) => {
-    return [{label: 'aa', value: 1}]
-    // field.loading = true;
-    // await fetch(`https://guostz.github.io/Tuan/files/select.json`)
-    //   .then((res: any) => res.json())
-    //   .then((data: any) => new Promise((resolve: any) => resolve(data)))
   }
 
   const options = [
@@ -112,9 +73,7 @@ const FormView: React.FC<FormPorps> = props => {
 
   // 相关方法传入
   const scope = {
-    dicts,
-    loadData,
-    fetchTest
+    dicts
   }
 
   // 自定义校验规则
@@ -158,7 +117,7 @@ const FormView: React.FC<FormPorps> = props => {
 
       <Row>
         <Col offset={6}>
-          <Button loading={submitLoading} type="primary" onClick={onSubmit}>提交</Button>
+          <Button type="primary" onClick={onSubmit}>提交</Button>
         </Col>
       </Row>
     </React.Fragment>
