@@ -7,7 +7,7 @@ import {
   validateSpecialCharacters,
   validateWhiteSpaceAnywhere
 } from '../utils/validate';
-import mockDbVersion from '../utils/mockData';
+import { mockDbVersion } from '../utils/mockData';
 import {
   SchemaFieldWrap,
   TestButton,

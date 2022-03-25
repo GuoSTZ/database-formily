@@ -142,9 +142,93 @@
       "x-component": "Radio.Group"
     },
     "racListJson": {
-      "type": "object",
+      "type": "array",
       "x-decorator": "FormItem",
-      "x-component": "EditTable",
+      "x-component": "ArrayTable",
+      "x-component-props": {
+        "pagination": { "pageSize": 10 },
+        "scroll": { 
+          "x": "100%" 
+        }
+      },
+      "items": {
+        "type": "object",
+        "properties": {
+          "column1": {
+            "type": "void",
+            "x-component": "ArrayTable.Column",
+            "x-component-props": { 
+              "width": 200, 
+              "title": "节点名称"
+            },
+            "properties": {
+              "nodeName": {
+                "type": "string",
+                "x-decorator": "FormItem",
+                "x-component": "Input"
+              }
+            }
+          },
+          "column2": {
+            "type": "void",
+            "x-component": "ArrayTable.Column",
+            "x-component-props": { 
+              "width": 200, 
+              "title": "IP地址"
+            },
+            "properties": {
+              "nodeIP": {
+                "type": "string",
+                "x-decorator": "FormItem",
+                "x-component": "Input"
+              }
+            }
+          },
+          "column3": {
+            "type": "void",
+            "x-component": "ArrayTable.Column",
+            "x-component-props": { 
+              "width": 200, 
+              "title": "端口"
+            },
+            "properties": {
+              "nodePort": {
+                "type": "string",
+                "x-decorator": "FormItem",
+                "x-component": "Input"
+              }
+            }
+          },
+          "column4": {
+            "type": "void",
+            "x-component": "ArrayTable.Column",
+            "x-component-props": { 
+              "width": 200, 
+              "title": "操作",
+              "dataIndex": "operations"
+            },
+            "properties": {
+              "item": {
+                "type": "void",
+                "x-component": "FormItem",
+                "properties": {
+                  "remove": {
+                    "type": "void",
+                    "x-component": "ArrayTable.Remove"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "properties": {
+        "add": {
+          "type": "void",
+          "x-component": "ArrayTable.Addition",
+          "title": "添加条目"
+        }
+      },
       "x-reactions": {
         "dependencies": [
           "multiNode"

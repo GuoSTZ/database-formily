@@ -14,7 +14,8 @@ import {
   Transfer,
   TreeSelect,
   Upload,
-  Form
+  Form,
+  ArrayTable
 } from '@formily/antd'
 import {
   createForm,
@@ -77,7 +78,8 @@ const SchemaField = createSchemaField({
     TimePicker,
     Transfer,
     TreeSelect,
-    Upload
+    Upload,
+    ArrayTable
   },
   scope: {
     useAsyncDataSource,
