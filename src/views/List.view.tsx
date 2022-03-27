@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table } from 'antd';
 import SearchForm from '../components/SearchForm';
 import tableColumns from '../utils/column.json';
@@ -10,6 +10,12 @@ interface ListViewProps { }
 
 const ListView: React.FC<ListViewProps> = props => {
   const _window = window as any;
+  const [data, setData] = useState([] as any[]);
+
+  useEffect(() => {
+    setData(tableData);
+  }, [tableData])
+
   useEffect(() => {
     _window.PubSub && _window.PubSub.subscribe(EventTypes.FormSearch, handleData);
     _window.PubSub && _window.PubSub.subscribe(EventTypes.TableChange, handleData);
@@ -22,7 +28,7 @@ const ListView: React.FC<ListViewProps> = props => {
   const handleData = (message: any, values: any) => {
     switch (message) {
       case EventTypes.FormSearch:
-        console.log(values)
+        values.status === 0 ? setData([]) : setData(tableData.slice(0, 3))
         break;
       case EventTypes.TableChange:
         console.log(values)
@@ -53,7 +59,7 @@ const ListView: React.FC<ListViewProps> = props => {
         <Table
           size="middle"
           columns={tableColumns}
-          dataSource={tableData}
+          dataSource={data}
           onChange={onChange}
         />
       </div>
