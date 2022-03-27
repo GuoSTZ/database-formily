@@ -12,11 +12,12 @@ import {
   Reset,
   FormButtonGroup,
 } from '@formily/antd'
-import { EventTypes } from '../../utils/event_type'
 import "./index.less"
 
 interface SearchFormProps {
   schema: any;
+  handleReset?: Function;
+  handleSubmit?: Function;
 }
 
 const SchemaField = createSchemaField({
@@ -31,17 +32,17 @@ const SchemaField = createSchemaField({
 })
 
 const SearchForm: React.FC<SearchFormProps> = props => {
-  const { schema, ...otherProps } = props;
+  const { schema, handleSubmit, handleReset, ...otherProps } = props;
   const form = useMemo(() => createForm(), []);
-  const win = window as any;
-
+  const _window = window as any;
+  
   const onSubmit = (values: any) => {
-    win.PubSub && win.PubSub.publish(EventTypes.FormSearch, values);
+    handleSubmit && handleSubmit(values);
   }
 
   const onReset = (event: any) => {
     form.submit((values: any) => {
-      win.PubSub && win.PubSub.publish(EventTypes.FormSearch, values);
+      handleReset && handleReset(values);
     })
   }
 
