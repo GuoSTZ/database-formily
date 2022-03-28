@@ -10,8 +10,7 @@ import {
 import { mockDbVersion } from '../utils/mockData';
 import {
   SchemaFieldWrap,
-  TestButton,
-  EditTable
+  TestButton
 } from '../components';
 // import * as schemaConfig from '../schema'
 const schemaConfig = require('../schema');
@@ -67,8 +66,7 @@ const FormView: React.FC<FormPorps> = props => {
 
   // 自定义组件
   const components = {
-    TestButton,
-    EditTable
+    TestButton
   }
 
   // 相关方法传入
