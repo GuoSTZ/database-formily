@@ -130,7 +130,7 @@
         "labelCol": 4,
         "wrapperCol": 8
       },
-      "x-component": "EditTable",
+      "x-component": "Input",
       "x-reactions": {
         "dependencies": [
           "multiNode"

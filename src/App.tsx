@@ -6,8 +6,8 @@ import './App.less';
 function App() {
   return (
     <div className="App">
-      {/* <FormView /> */}
-      <ListView />
+      <FormView />
+      {/* <ListView /> */}
     </div>
   );
 }

@@ -51,10 +51,10 @@ const FormView: React.FC<FormPorps> = props => {
   const options = [
     { label: 'Mysql', value: 'Mysql' },
     { label: 'Oracle', value: 'Oracle' },
-    { label: 'Odps', value: 'Odps' }
+    // { label: 'Odps', value: 'Odps' }
     // { label: 'Odps', value: 'Odps' },
-    // { label: 'Test_Mysql', value: 'Mysql' },
-    // { label: 'Test_Oracle', value: 'Oracle' },
+    { label: 'Test_Mysql', value: 'Test_Mysql' },
+    { label: 'Test_Oracle', value: 'Test_Oracle' },
     // { label: 'Hive', value: 'Hive' },
     // { label: 'OceanBase', value: 'OceanBase' }
   ]
