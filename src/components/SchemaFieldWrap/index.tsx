@@ -23,8 +23,8 @@ import {
 } from '@formily/core'
 import { createSchemaField } from '@formily/react';
 import { action } from '@formily/reactive';
-
-// const SchemaField = createSchemaField();
+import { Button } from 'antd';
+import { UploadOutlined } from '@ant-design/icons'
 
 interface SchemaFieldWrapProps {
   getForm?: any;
@@ -63,6 +63,14 @@ const useDicts = (data: any) => (field: any) => {
   field.dataSource = data;
 }
 
+const NormalUpload = (props: any) => {
+  return (
+    <Upload {...props}>
+      <Button icon={<UploadOutlined />}>{props.text}</Button>
+    </Upload>
+  )
+}
+
 const SchemaField = createSchemaField({
   components: {
     FormItem,
@@ -79,7 +87,8 @@ const SchemaField = createSchemaField({
     Transfer,
     TreeSelect,
     Upload,
-    ArrayTable
+    ArrayTable,
+    NormalUpload
   },
   scope: {
     useAsyncDataSource,
