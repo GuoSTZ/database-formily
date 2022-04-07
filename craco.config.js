@@ -9,7 +9,7 @@ module.exports = {
         lessLoaderOptions: {
           lessOptions: {
             modifyVars: { 
-              // '@primary-color': '#1DA57A' 
+              '@ant-prefix': 'antd-v4' 
             },
             javascriptEnabled: true,
           },

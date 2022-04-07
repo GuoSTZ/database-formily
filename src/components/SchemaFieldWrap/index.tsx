@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { 
   FormItem,
   Input,
@@ -15,18 +15,25 @@ import {
   TreeSelect,
   Upload,
   Form,
-  ArrayTable
+  ArrayTable,
+  FormButtonGroup,
+  FormCollapse,
+  FormDialog,
+  FormDrawer,
+  FormGrid,
+  FormLayout,
+  FormStep,
+  FormTab
 } from '@formily/antd'
 import {
   createForm,
   registerValidateRules,
 } from '@formily/core'
-import { createSchemaField } from '@formily/react';
+import { createSchemaField, RecursionField, observer } from '@formily/react';
 import { action } from '@formily/reactive';
-import { Button } from 'antd';
-import { UploadOutlined } from '@ant-design/icons'
+import './assets/index.less';
 
-interface SchemaFieldWrapProps {
+interface McFormilyProps {
   getForm?: any;
   formPorps?: any;
   schema: any;
@@ -35,39 +42,17 @@ interface SchemaFieldWrapProps {
   validator?: any
 }
 
-// 修改schema字段源数据的方法
-const useAsyncDataSource = (service: any, transform: Function) => (field: any) => {
-  field.loading = true;
+// 同步设置输入控件的数据源
+const useDataSource = (data: any, transform: any) => (field: any) => {
+  field.dataSource = transform ? transform(data) : data;
+}
+
+// 异步设置输入控件的数据源
+const useAsyncDataSource = (service: any, transform: any) => (field: any) => {
   service(field).then(
     action.bound && action.bound((data: any) => {
       field.dataSource = transform ? transform(data) : data;
-      field.loading = false;
-    }),
-  );
-};
-
-// 修改schema字段源数据的方法
-const useAsyncDataSourceWithUrl = (url: string, transform: Function) => (field: any) => {
-  field.loading = true;
-  fetch(url)
-    .then(res => res.json())
-    .then(
-      action.bound && action.bound((data: any) => {
-        field.dataSource = transform ? transform(data) : data;
-        field.loading = false;
-      })
-    )
-};
-
-const useDicts = (data: any) => (field: any) => {
-  field.dataSource = data;
-}
-
-const NormalUpload = (props: any) => {
-  return (
-    <Upload {...props}>
-      <Button icon={<UploadOutlined />}>{props.text}</Button>
-    </Upload>
+    })
   )
 }
 
@@ -88,42 +73,52 @@ const SchemaField = createSchemaField({
     TreeSelect,
     Upload,
     ArrayTable,
-    NormalUpload
+    FormButtonGroup,
+    FormCollapse,
+    FormGrid,
+    FormLayout,
+    FormStep,
+    FormTab
   },
   scope: {
-    useAsyncDataSource,
-    useAsyncDataSourceWithUrl,
-    useDicts
+    useDataSource,
+    useAsyncDataSource
   }
 });
 
-const SchemaFieldWrap: React.FC<SchemaFieldWrapProps> = props => {
-  const { getForm, schema, formPorps, validator, ...otherProps} = props;
+const McFormily: React.FC<McFormilyProps> = observer(props => {
+  const { getForm, schema, formPorps, validator, components, ...otherProps} = props;
+
+  const baseform = React.useMemo(() => 
+    createForm({
+      validateFirst: true,
+      effects: () => { },
+    })
+  , [schema])
 
   useEffect(() => {
     getForm && getForm(baseform);
-  }, [getForm])
-
-  const baseform = createForm({
-    validateFirst: true,
-    effects: () => { },
-  })
+  }, [schema])
 
   // 自定义校验规则注册
   registerValidateRules(validator);
 
-  useEffect(() => {
-    console.log("SchemaFieldWrap组件渲染完成")
-    return () => {
-      console.log("SchemaFieldWrap组件卸载中")
+  // 自定义组件传出form实例
+  const handleCustomComp = () => {
+    if(!components) return {};
+    const customComp: any = {};
+    for(let key in components) {
+      const Comp = components[key];
+      customComp[key] = (props: any) => <Comp {...props} form={baseform}/>
     }
-  }, [SchemaField])
+    return customComp;
+  }
 
   return (
     <Form form={baseform} {...formPorps}>
-      <SchemaField {...otherProps} schema={schema} />
+      <SchemaField {...otherProps} schema={schema} components={handleCustomComp()}/>
     </Form>
   )
-}
+})
 
-export default SchemaFieldWrap;
+export default McFormily;
