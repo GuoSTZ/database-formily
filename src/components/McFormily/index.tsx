@@ -40,7 +40,7 @@ interface McFormilyProps {
   getForm?: any;
   formPorps?: any;
   schema: any;
-  components: any
+  components?: any
   scope?: any;
   validator?: any
 }

@@ -12,6 +12,7 @@ import {
   Reset,
   FormButtonGroup,
 } from '@formily/antd'
+import McFormily from '../McFormily'
 import "./index.less"
 
 interface SearchFormProps {
@@ -35,7 +36,7 @@ const SearchForm: React.FC<SearchFormProps> = props => {
   const { schema, handleSubmit, handleReset, ...otherProps } = props;
   const form = useMemo(() => createForm(), []);
   const _window = window as any;
-  
+
   const onSubmit = (values: any) => {
     handleSubmit && handleSubmit(values);
   }
@@ -47,14 +48,14 @@ const SearchForm: React.FC<SearchFormProps> = props => {
   }
 
   return (
-    <Form form={form} className="SearchForm">
-      <SchemaField {...otherProps} schema={schema} />
+    <div>
+      <McFormily schema={schema} />
 
-      <FormButtonGroup>
+      {/* <FormButtonGroup>
         <Reset onClick={onReset}>重置</Reset>
         <Submit onSubmit={onSubmit}>搜索</Submit>
-      </FormButtonGroup>
-    </Form>
+      </FormButtonGroup> */}
+    </div>
   )
 }
 
