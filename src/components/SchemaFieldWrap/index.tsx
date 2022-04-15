@@ -28,10 +28,13 @@ import {
 import {
   createForm,
   registerValidateRules,
+  onFormInit,
+  onFormMount
 } from '@formily/core'
 import { createSchemaField, RecursionField, observer } from '@formily/react';
 import { action } from '@formily/reactive';
-import './assets/index.less';
+import { ConfigProvider } from 'antd';
+// import './assets/index.less';
 
 interface McFormilyProps {
   getForm?: any;
@@ -87,12 +90,26 @@ const SchemaField = createSchemaField({
 });
 
 const McFormily: React.FC<McFormilyProps> = observer(props => {
-  const { getForm, schema, formPorps, validator, components, ...otherProps} = props;
+  const { 
+    getForm, 
+    schema = {}, 
+    validator, 
+    components,
+    ...otherProps
+  } = props;
 
   const baseform = React.useMemo(() => 
     createForm({
       validateFirst: true,
-      effects: () => { },
+      effects: () => {
+        onFormInit(form => {
+          // 自定义校验规则注册
+          registerValidateRules(validator);
+        })
+        onFormMount((form) => {
+          getForm && getForm(form);
+        })
+      },
     })
   , [schema])
 
@@ -115,9 +132,11 @@ const McFormily: React.FC<McFormilyProps> = observer(props => {
   }
 
   return (
-    <Form form={baseform} {...formPorps}>
-      <SchemaField {...otherProps} schema={schema} components={handleCustomComp()}/>
+    // <ConfigProvider prefixCls='McFormily-ant'>
+    <Form form={baseform} {...schema.form || {}}>
+      <SchemaField {...otherProps} schema={schema.schema || {}} components={handleCustomComp()}/>
     </Form>
+    // </ConfigProvider>
   )
 })
 

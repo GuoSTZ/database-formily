@@ -130,13 +130,13 @@ export default observer(() => {
   }
 
   return (
-    <ConfigProvider prefixCls='antd-v4'>
+    // <ConfigProvider prefixCls='antd-v4'>
       <Form form={form} layout="vertical">
         <SchemaField schema={schema} />
         <FormButtonGroup>
           <Submit onSubmit={console.log}>提交</Submit>
         </FormButtonGroup>
       </Form>
-    </ConfigProvider>
+    // </ConfigProvider>
   )
 })

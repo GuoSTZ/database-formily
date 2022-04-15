@@ -82,6 +82,22 @@ const FormView: React.FC<FormPorps> = props => {
     validateWhiteSpaceAnywhere
   }
 
+  const schema = {
+    type: "object",
+    properties: {
+      dbType: {
+        type: "string",
+        title: "数据源类型",
+        "x-decorator": "FormItem",
+        "x-component": "Select"
+      },
+      container: {
+        type: "object",
+        "x-component": "Custom"
+      }
+    }
+  }
+
   return (
     <React.Fragment>
       <Row>

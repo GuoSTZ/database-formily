@@ -9,7 +9,7 @@ module.exports = {
         lessLoaderOptions: {
           lessOptions: {
             modifyVars: { 
-              '@ant-prefix': 'antd-v4' 
+              // '@ant-prefix': 'McFormily-ant' 
             },
             javascriptEnabled: true,
           },
