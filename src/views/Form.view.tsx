@@ -9,7 +9,7 @@ import {
 } from '../utils/validate';
 import { mockDbVersion } from '../utils/mockData';
 import {
-  SchemaFieldWrap,
+  McFormily,
   TestButton
 } from '../components';
 // import * as schemaConfig from '../schema'
@@ -120,7 +120,7 @@ const FormView: React.FC<FormPorps> = props => {
         </Col>
       </Row>
 
-      <SchemaFieldWrap 
+      <McFormily 
         getForm={(baseForm: any) => form = baseForm} 
         components={components}
         scope={scope}
