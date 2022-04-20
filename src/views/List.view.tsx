@@ -17,13 +17,23 @@ const ListView: React.FC<ListViewProps> = props => {
   }, [tableData])
 
   useEffect(() => {
-    _window.PubSub && _window.PubSub.subscribe(EventTypes.FormSearch, handleData);
-    _window.PubSub && _window.PubSub.subscribe(EventTypes.TableChange, handleData);
+    subscribe(EventTypes.FormSearch, handleData);
+    subscribe(EventTypes.TableChange, handleData);
     return () => {
-      _window.PubSub && _window.PubSub.subscribe(EventTypes.FormSearch);
-      _window.PubSub && _window.PubSub.subscribe(EventTypes.TableChange);
+      subscribe(EventTypes.FormSearch);
+      subscribe(EventTypes.TableChange);
     }
   }, [])
+
+  // 事件订阅
+  const subscribe = (type: string, values?: any) => {
+    _window.PubSub && _window.PubSub.subscribe(type, values);
+  }
+
+  // 事件发布
+  const publish = (type: string, values?: any) => {
+    _window.PubSub && _window.PubSub.publish(type, values);
+  }
 
   const handleData = (message: any, values: any) => {
     switch (message) {
@@ -39,12 +49,12 @@ const ListView: React.FC<ListViewProps> = props => {
   }
 
   const handlePublish = (values: any) => {
-    _window.PubSub && _window.PubSub.publish(EventTypes.FormSearch, values);
+    publish(EventTypes.FormSearch, values);
   }
 
   const onChange = (pagination: any, filters: any, sorter: any, extra: any) => {
     const values = { pagination, filters, sorter, extra };
-    _window.PubSub && _window.PubSub.publish(EventTypes.TableChange, values);
+    publish(EventTypes.TableChange, values);
   }
 
   return (

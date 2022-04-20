@@ -45,6 +45,9 @@ interface McFormilyProps {
   validator?: any
 }
 
+type ActiveKey = string | number;
+type ActiveKeys = string | number | Array<string | number>;
+
 // 同步设置输入控件的数据源
 const useDataSource = (data: any, transform: any) => (field: any) => {
   field.dataSource = transform ? transform(data) : data;
@@ -58,6 +61,9 @@ const useAsyncDataSource = (service: any, transform: any) => (field: any) => {
     })
   )
 }
+
+// FormCollapse 组件需要使用到的属性
+const useFormCollapse = (activeKey?: ActiveKeys) => FormCollapse.createFormCollapse && FormCollapse.createFormCollapse(activeKey);
 
 const SchemaField = createSchemaField({
   components: {
@@ -85,7 +91,8 @@ const SchemaField = createSchemaField({
   },
   scope: {
     useDataSource,
-    useAsyncDataSource
+    useAsyncDataSource,
+    useFormCollapse
   }
 });
 

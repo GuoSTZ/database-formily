@@ -1,0 +1,39 @@
+.FormBlock {
+  .ant-formily-layout {
+    .ant-collapse {
+      > .ant-collapse-item {
+        > .ant-collapse-header {
+          height: 22px;
+          line-height: 22px;
+          padding: 0;
+          font-size: 14px;
+          font-weight: 500;
+          color: #081333;
+          cursor: auto;
+
+          &::before {
+            content: "";
+            width: 4px;
+            height: 14px;
+            margin: auto 0;
+            margin-right: 4px;
+            border-radius: 2px;
+            background-color: #3385FF;
+          }
+
+          // 隐藏校验失败时显示的徽标
+          > .ant-badge {
+            height: 22px;
+            line-height: 22px;
+            > sup {
+              display: none;
+            }
+          }
+        }
+        > .ant-collapse-content {
+          
+        }
+      }
+    }
+  }
+}

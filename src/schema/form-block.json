@@ -1,0 +1,239 @@
+{
+  "form": {},
+  "schema": {
+    "type": "object",
+    "properties": {
+      "collapse": {
+        "type": "void",
+        "x-decorator": "FormItem",
+        "x-component": "FormCollapse",
+        "x-component-props": {
+          "formCollapse": "{{useFormCollapse()}}",
+          "ghost": true,
+          "collapsible": "disabled"
+        },
+        "properties": {
+          "panel1": {
+            "type": "void",
+            "x-component": "FormCollapse.CollapsePanel",
+            "x-component-props": {
+              "header": "API基本信息",
+              "showArrow": false
+            },
+            "properties": {
+              "apiName": {
+                "type": "string",
+                "title": "API名称",
+                "x-decorator": "FormItem",
+                "x-decorator-props": {
+                  "labelCol": 4,
+                  "wrapperCol": 12
+                },
+                "x-component": "Input",
+                "x-component-props": {
+                  "placeholder": "请输入API名称，最多20字"
+                },
+                "x-validator": [
+                  {
+                    "required": true,
+                    "message": "请输入API名称"
+                  },
+                  {
+                    "max": 20,
+                    "message": "最对输入20字"
+                  }
+                ]
+              },
+              "apiDesc": {
+                "type": "string",
+                "title": "API描述",
+                "x-decorator": "FormItem",
+                "x-decorator-props": {
+                  "labelCol": 4,
+                  "wrapperCol": 12
+                },
+                "x-component": "Input.TextArea",
+                "x-validator": [
+                  {
+                    "required": true,
+                    "message": "请输入API描述"
+                  }
+                ]
+              },
+              "protocol": {
+                "type": "string",
+                "title": "协议",
+                "enum": [
+                  {
+                    "label": "http",
+                    "value": "http"
+                  }
+                ],
+                "default": "http",
+                "x-decorator": "FormItem",
+                "x-decorator-props": {
+                  "labelCol": 4,
+                  "wrapperCol": 12
+                },
+                "x-component": "Radio.Group",
+                "x-validator": [
+                  {
+                    "required": true,
+                    "message": "请选择协议"
+                  }
+                ]
+              },
+              "requestMode": {
+                "type": "string",
+                "title": "请求方式",
+                "enum": [
+                  {
+                    "label": "POST",
+                    "value": "POST"
+                  },
+                  {
+                    "label": "GET",
+                    "value": "GET"
+                  },
+                  {
+                    "label": "UPDATE",
+                    "value": "UPDATE"
+                  },
+                  {
+                    "label": "DELETE",
+                    "value": "DELETE"
+                  },
+                  {
+                    "label": "OPTIONS",
+                    "value": "OPTIONS"
+                  },
+                  {
+                    "label": "PUT",
+                    "value": "PUT"
+                  }
+                ],
+                "x-decorator": "FormItem",
+                "x-decorator-props": {
+                  "labelCol": 4,
+                  "wrapperCol": 12
+                },
+                "x-component": "Select",
+                "x-component-props": {
+                  "placeholder": "请选择请求方式"
+                },
+                "x-validator": [
+                  {
+                    "required": true,
+                    "message": "请选择请求方式"
+                  }
+                ]
+              },
+              "responseDataFormat": {
+                "type": "string",
+                "title": "返回数据格式",
+                "enum": [
+                  {
+                    "label": "JSON",
+                    "value": "JSON"
+                  },
+                  {
+                    "label": "XML",
+                    "value": "XML"
+                  }
+                ],
+                "default": "JSON",
+                "x-decorator": "FormItem",
+                "x-decorator-props": {
+                  "labelCol": 4,
+                  "wrapperCol": 12
+                },
+                "x-component": "Radio.Group",
+                "x-validator": [
+                  {
+                    "required": true,
+                    "message": "请选择返回数据格式"
+                  }
+                ]
+              },
+              "appName": {
+                "type": "string",
+                "title": "应用名称",
+                "enum": [
+                  {
+                    "label": "app1",
+                    "value": "app1"
+                  },
+                  {
+                    "label": "app2",
+                    "value": "app2"
+                  }
+                ],
+                "x-decorator": "FormItem",
+                "x-decorator-props": {
+                  "labelCol": 4,
+                  "wrapperCol": 12
+                },
+                "x-component": "Select",
+                "x-component-props": {
+                  "placeholder": "请选择应用名称"
+                },
+                "x-validator": [
+                  {
+                    "required": true,
+                    "message": "请选择应用名称"
+                  }
+                ]
+              }
+            }
+          },
+          "panel2": {
+            "type": "void",
+            "x-component": "FormCollapse.CollapsePanel",
+            "x-component-props": {
+              "header": "API请求参数",
+              "showArrow": false
+            },
+            "properties": {
+              "apiUrl": {
+                "type": "string",
+                "title": "API URL",
+                "x-decorator": "FormItem",
+                "x-decorator-props": {
+                  "labelCol": 4,
+                  "wrapperCol": 12
+                },
+                "x-component": "Input",
+                "x-component-props": {
+                  "placeholder": "请输入URL，不超过300字符"
+                },
+                "x-validator": [
+                  {
+                    "required": true,
+                    "message": "请选择应用名称"
+                  },
+                  {
+                    "max": 20,
+                    "message": "最对输入300字"
+                  }
+                ]
+              },
+              "requestBody": {
+                "type": "string",
+                "title": "请求BODY",
+                "x-decorator": "FormItem",
+                "x-decorator-props": {
+                  "labelCol": 4,
+                  "wrapperCol": 12
+                },
+                "x-component": "JsonEditor",
+                "x-component-props": {
+                  "placeholder": "aaa"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

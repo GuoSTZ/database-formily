@@ -6,6 +6,8 @@ import Test_Oracle from './Test_Oracle.json';
 import HiveSchema from './Hive.json';
 import OceanBaseSchema from './OceanBase.json';
 import OdpsSchema from './Odps.json';
+import FormBlockSchema from './form-block.json';
+import FormBlockLayoutSchema from './form-block-layout.json';
 
 const handleSchema = (config: any) => {
   const newConfig = Object.assign({}, DefaultSchema, {properties: {...DefaultSchema.properties, ...config.properties}});
@@ -24,5 +26,7 @@ export {
   Test_OracleSchema,
   HiveSchema,
   OceanBaseSchema,
-  OdpsSchema
+  OdpsSchema,
+  FormBlockSchema,
+  FormBlockLayoutSchema
 };
